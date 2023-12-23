@@ -42,23 +42,24 @@ def find_temps(date: pd.Timestamp):
 def get_dates_list(date):
     return pd.date_range(end=date, freq="M", periods=12)
 
+global null_indices
+null_indices = [21138]
+
 def assign_temperatures(fire):
     date = fire["ALARM_DATE"]
     try:
         for i in range(1, 13):
             fire[f"{i}_MONTHS_BEFORE"] = find_temps(get_dates_list(date)[i - 1])
     except:
-        print(fire)
+        pass
     return fire
 
 cal_fire_temps = calfires_trim.apply(lambda row: assign_temperatures(row), axis=1)
 
-global null_indices
-null_indices = []
 
 for i in cal_fire_temps.index:
     for j in range(1, 13):
-        if cal_fire_temps[f"{j}_MONTHS_BEFORE"][i] == []:
+        if cal_fire_temps[f"{j}_MONTHS_BEFORE"][i] == [] or (not type(cal_fire_temps[f"{j}_MONTHS_BEFORE"][i]) == list):
             if not i in null_indices:
                 null_indices.append(i)
 
