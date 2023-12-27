@@ -92,14 +92,20 @@ fire_centroid_x = cal_fire_temps["centroid_x"]
 fire_centroid_y = cal_fire_temps["centroid_y"]
 fire_area = cal_fire_temps["Shape_Area"]
 
+df_list = []
+for i in range(1, 13): 
+    df_list.append(pd.DataFrame(fire_X[f"{i}_MONTHS_BEFORE"].values.tolist()))
+
+fire_X = pd.concat(df_list, axis=1)
+
 global null_indices_2
 null_indices_2 = []
 
 for i in fire_X.index:
     for column in fire_X.columns:
-         if not type(fire_X[column][i]) == np.float64 and not i in null_indices_2:
-              print(type(fire_X[column][i]))
-              # null_indices_2.append(i)
+         if not type(fire_X.iloc[i, column]) == np.float64 and not i in null_indices_2:
+              print(i)
+              null_indices_2.append(i)
 
 fire_X = fire_X.drop(null_indices_2)
 fire_area = fire_area.drop(null_indices_2)
