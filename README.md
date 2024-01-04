@@ -4,10 +4,3 @@
 
 This project tests different machine learning models to determine which is most accurate for predicting the spread of wildfires in California.
 
-Libraries used:
-* pandas
-* geopandas
-* matplotlib
-* shapely
-* scikit-learn
-* tensorflow (possibly)
