@@ -51,7 +51,7 @@ def find_temps(date: pd.Timestamp):
     
     return temps_list
 
-# Gte list of all the first days of each of the 12 months before date
+# Get list of all the first days of each of the 12 months before date
 def get_dates_list(date):
     return pd.date_range(end=date, freq="M", periods=12)
 
@@ -83,9 +83,6 @@ for i in cal_fire_temps.index:
 
 cal_fire_temps = cal_fire_temps.drop(null_indices)
 
-
-print("this is working")
-
 # Prepare Data for training
 fire_X = cal_fire_temps.loc[cal_fire_temps.index, ["1_MONTHS_BEFORE", "2_MONTHS_BEFORE", "3_MONTHS_BEFORE", "4_MONTHS_BEFORE", "5_MONTHS_BEFORE", "6_MONTHS_BEFORE", "7_MONTHS_BEFORE", "8_MONTHS_BEFORE", "9_MONTHS_BEFORE", "10_MONTHS_BEFORE", "11_MONTHS_BEFORE", "12_MONTHS_BEFORE"]]
 fire_centroid_x = cal_fire_temps["centroid_x"]
@@ -112,5 +109,5 @@ fire_area = fire_area.drop(null_indices_2)
 fire_centroid_x = fire_centroid_x.drop(null_indices_2)
 fire_centroid_y = fire_centroid_y.drop(null_indices_2)
 
-
 k_fold = RepeatedKFold(n_splits=5, n_repeats=5, random_state=1)
+
