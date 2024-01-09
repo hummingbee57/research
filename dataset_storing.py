@@ -8,7 +8,7 @@ import geopandas as gpd
 import numpy as np
 from sklearn.model_selection import RepeatedKFold
 
-calfires = gpd.read_file("fire21_2.gdb")
+calfires = gpd.read_file("data/raw-data/fire21_2.gdb")
 
 calfires_trim = calfires.drop(labels=["STATE", "FIRE_NAME", "AGENCY", "UNIT_ID", "INC_NUM", "COMMENTS", "REPORT_AC", "C_METHOD", "OBJECTIVE", "FIRE_NUM", "COMPLEX_NAME", "COMPLEX_INCNUM", "CONT_DATE"], axis=1)
 calfires_trim = calfires_trim.dropna()
@@ -83,6 +83,8 @@ for i in cal_fire_temps.index:
 
 cal_fire_temps = cal_fire_temps.drop(null_indices)
 
+cal_fire_temps.to_csv("data/raw-data/cal_fire_temps.csv")
+
 # Prepare Data for training
 fire_X = cal_fire_temps.loc[cal_fire_temps.index, ["1_MONTHS_BEFORE", "2_MONTHS_BEFORE", "3_MONTHS_BEFORE", "4_MONTHS_BEFORE", "5_MONTHS_BEFORE", "6_MONTHS_BEFORE", "7_MONTHS_BEFORE", "8_MONTHS_BEFORE", "9_MONTHS_BEFORE", "10_MONTHS_BEFORE", "11_MONTHS_BEFORE", "12_MONTHS_BEFORE"]]
 fire_centroid_x = cal_fire_temps["centroid_x"]
@@ -111,3 +113,4 @@ fire_centroid_y = fire_centroid_y.drop(null_indices_2)
 
 k_fold = RepeatedKFold(n_splits=5, n_repeats=5, random_state=1)
 
+# Generate files for data/raw-data 
